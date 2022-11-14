@@ -46,7 +46,7 @@ contract NFT_TOKEN is ERC1155 {
         }
     }
 
-    function setURI(string memory newuri) public {
+    function setURI(string memory newuri) public { 
         require(msg.sender==owner,"Only Owner!");   
         _setURI(newuri); 
     }  
