@@ -10,7 +10,8 @@ const {
 	ContractExecuteTransaction,
 	ContractCallQuery,
 	Hbar,
-	TokenId
+	TokenId,
+	NetworkName
 } = require("@hashgraph/sdk");
 const fs = require("fs");
 
@@ -22,7 +23,7 @@ const client = Client.forTestnet().setOperator(operatorId, operatorKey);
 async function main() {
 	// Import the compiled contract bytecode
 	const contractBytecode = fs.readFileSync("ERC1155_Token_sol_NFT_TOKEN.bin");
-
+	console.log("Network=",NetworkName);
 	//Create a file on Hedera and store the hex-encoded bytecode
 	// const fileCreateTx   = new FileCreateTransaction().setKeys([operatorKey]);
 	// const fileSubmit     = await fileCreateTx.execute(client);

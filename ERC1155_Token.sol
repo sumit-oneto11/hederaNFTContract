@@ -12,25 +12,10 @@ contract NFT_TOKEN is ERC1155 {
     // Token symbol 
     string private _symbol;
 
+    // Token supply
     uint256 private tokenId;    
  
     constructor()  ERC1155("https://oneto11.mypinata.cloud/ipfs/QmPx6kh1rKYt1WwSgimEEjL8gd4DeHvyqo59ytNVAifTid/") {}
-
-    function mint(address to, uint256 amount, bytes memory data) public {
-        require(msg.sender==owner);       
-        tokenId++;     
-        _mint(to, tokenId, amount, data);
-    }
-
-    function mintBatch(address to,  uint256[] memory _tokenId, uint256[] memory amount, bytes memory data) public {
-        require(msg.sender==owner);
-        _mintBatch(to, _tokenId, amount, data);
-    }
-
-    function setURI(string memory newuri) public {
-        require(msg.sender==owner);
-        _setURI(newuri); 
-    }
 
     function initialize(string memory name_, string memory symbol_) public {
         require(!initialized,"Already Initialized!");
@@ -39,6 +24,32 @@ contract NFT_TOKEN is ERC1155 {
         _symbol = symbol_;
         owner   = msg.sender;
     }
+
+    function mint(address to, uint256 amount, bytes memory data) public {
+        require(msg.sender==owner,"Only Owner!");       
+        tokenId++;     
+        _mint(to, tokenId, amount, data);
+    }
+
+    function mintBatchForSingleAddress(address to,  uint256[] memory _tokenIds, uint256[] memory amount, bytes memory data) public {
+        require(msg.sender==owner,"Only Owner!");   
+        tokenId=tokenId+_tokenIds.length;
+        _mintBatch(to, _tokenIds, amount, data);
+    }
+
+    function mintBatchForDiffrentAddress(address[] memory to,  uint256[] memory _tokenIds, uint256[] memory amounts, bytes memory data) public {
+        require(msg.sender==owner,"Only Owner!");
+        require((to.length ==_tokenIds.length) && (_tokenIds.length == amounts.length), "Length mismatch!");
+        tokenId=tokenId+_tokenIds.length;
+        for(uint256 i = 0; i < _tokenIds.length; i++) {
+        _mint(to[i], _tokenIds[i], amounts[i], data);
+        }
+    }
+
+    function setURI(string memory newuri) public {
+        require(msg.sender==owner,"Only Owner!");   
+        _setURI(newuri); 
+    }  
 
     /**
      * @dev See {IERC1155-name}
