@@ -42,7 +42,7 @@ contract NFT_TOKEN is ERC1155 {
         require((to.length ==_tokenIds.length) && (_tokenIds.length == amounts.length), "Length mismatch!");
         tokenId=tokenId+_tokenIds.length;
         for(uint256 i = 0; i < _tokenIds.length; i++) {
-        _mint(to[i], _tokenIds[i], amounts[i], data);
+            _mint(to[i], _tokenIds[i], amounts[i], data);
         }
     }
 
